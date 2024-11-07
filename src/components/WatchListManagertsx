@@ -1,0 +1,29 @@
+import React, { useState } from 'react';
+import { addPairToWatchlist } from '../api/backend';
+
+const WatchlistManager: React.FC = () => {
+  const [error, setError] = useState<string | null>(null);
+  const [isAdding, setIsAdding] = useState(false);
+
+  const handleAddPair = async (pair: string) => {
+    setIsAdding(true);
+    setError(null); // Clear any previous error before trying to add a new pair
+    try {
+      await addPairToWatchlist(pair);
+      // Handle successful addition, e.g., updating the watchlist
+      console.log(`Successfully added ${pair} to the watchlist.`);
+    } catch (err: any) {
+      // Set error message if the addition fails
+      setError(err.message);
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  return (
+    ""
+  );
+ 
+};
+
+export default WatchlistManager;

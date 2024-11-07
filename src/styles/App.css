@@ -1,5 +1,5 @@
 /* Importing Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
 /* Reset and Base Styles */
 * {
@@ -9,9 +9,10 @@
 }
 
 body {
-  background-color: #F5F5F5;
-  font-family: 'Roboto', sans-serif;
-  color: #333333;
+  background-color: #0F0F0F;
+  font-family: 'Montserrat', sans-serif;
+  color: #E0E0E0;
+  overflow-x: hidden;
 }
 
 .app {
@@ -22,18 +23,38 @@ body {
 
 h1 {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 30px;
-  color: #4CAF50;
+  color: #00D4FF;
   animation: fadeInDown 1s ease;
 }
 
+/* Error Message Styling */
 .error {
-  color: #F44336;
+  color: #ff4c4c;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
+  padding: 10px;
+  background-color: rgba(255, 76, 76, 0.1);
+  border: 1px solid #ff4c4c;
+  border-radius: 5px;
+  animation: shake 0.5s ease;
 }
+
+/* Shake Animation */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
 
 .container {
   display: flex;
@@ -46,17 +67,31 @@ h1 {
 .section {
   flex: 1;
   min-width: 300px;
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
+  overflow: hidden;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 0, 255, 0.2), transparent);
+  animation: rotateBg 10s linear infinite;
+  z-index: -1;
 }
 
 .section h2 {
   font-size: 1.8rem;
   margin-bottom: 15px;
-  color: #4CAF50;
+  color: #00D4FF;
 }
 
 .section:hover {
@@ -75,50 +110,50 @@ li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #FAFAFA;
+  background-color: rgba(255, 255, 255, 0.02);
   margin-bottom: 10px;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid #E0E0E0;
   transition: background-color 0.2s;
 }
 
 li:hover {
-  background-color: #F0F0F0;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 button {
-  background-color: #4CAF50;
-  color: #FFFFFF;
+  background-color: #FF00FF;
+  color: #0F0F0F;
   border: none;
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 button:hover {
-  background-color: #43A047;
+  background-color: #FF4CFF;
+  transform: translateY(-2px);
 }
 
 button:disabled {
-  background-color: #A5D6A7;
+  background-color: #555555;
   cursor: not-allowed;
 }
 
-/* Search Input */
 .search-input {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 6px;
-  border: 1px solid #E0E0E0;
-  background-color: #FAFAFA;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #E0E0E0;
 }
 
 .search-input::placeholder {
-  color: #9E9E9E;
+  color: #BBBBBB;
 }
 
 /* Interval Buttons */
@@ -129,8 +164,8 @@ button:disabled {
 }
 
 .interval-buttons button {
-  background-color: #E0E0E0;
-  color: #333333;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #E0E0E0;
   border: none;
   padding: 10px 15px;
   margin: 0 5px;
@@ -140,12 +175,12 @@ button:disabled {
 }
 
 .interval-buttons button:hover {
-  background-color: #BDBDBD;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .interval-buttons .active {
-  background-color: #4CAF50;
-  color: #FFFFFF;
+  background-color: #00D4FF;
+  color: #0F0F0F;
 }
 
 .chart-container {
@@ -157,7 +192,7 @@ button:disabled {
   text-align: center;
   font-size: 1.2rem;
   margin-top: 10px;
-  color: #333333;
+  color: #E0E0E0;
 }
 
 /* Animations */
@@ -178,6 +213,42 @@ button:disabled {
   } to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes rotateBg {
+  from {
+    transform: rotate(0deg);
+  } to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animated Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: radial-gradient(circle at center, #FF00FF, transparent 70%), radial-gradient(circle at center, #00D4FF, transparent 70%);
+  background-size: 50% 50%;
+  background-position: 0 0, 100% 100%;
+  background-repeat: no-repeat;
+  animation: backgroundAnimation 20s linear infinite;
+  z-index: -2;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-25%, -25%) scale(1.5);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
   }
 }
 
