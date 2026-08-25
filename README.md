@@ -1,46 +1,56 @@
-# Getting Started with Create React App
+# Crypto Watchlist
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React + TypeScript app for tracking crypto pairs against live Binance market data —
+build a watchlist, then read each pair's price and candlestick history over daily,
+weekly or monthly intervals.
 
-## Available Scripts
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![React](https://img.shields.io/badge/React_18-20232A?logo=react&logoColor=61DAFB)
+![ECharts](https://img.shields.io/badge/ECharts-AA344D?logo=apacheecharts&logoColor=white)
 
-In the project directory, you can run:
+## What it does
 
-### `npm start`
+- **Pair discovery** — loads the tradable symbol list from Binance `exchangeInfo` so the
+  watchlist can only ever contain pairs that actually exist.
+- **Live prices** — subscribes to Binance's combined WebSocket stream
+  (`wss://stream.binance.com:9443/stream`) and updates each row as ticks arrive, rather
+  than polling on a timer.
+- **Historical charts** — pulls OHLC candles from the `klines` endpoint and renders them
+  with ECharts, switchable between daily / weekly / monthly.
+- **Watchlist management** — add and remove pairs, with the add path handling and
+  surfacing its own failures instead of silently dropping them.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Stack
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+| Layer | Choice |
+| --- | --- |
+| UI | React 18 · TypeScript · Create React App |
+| Charts | ECharts (`echarts-for-react`) · Recharts |
+| Data | Binance public REST + WebSocket API |
+| HTTP | axios |
 
-### `npm test`
+## Running it
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+npm start        # http://localhost:3000
+```
 
-### `npm run build`
+No API key or account is needed — every endpoint used here is a public Binance endpoint.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Scope and limitations
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Worth being explicit about, since this is a front-end exercise rather than a product:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **There is no server.** `src/api/backend.ts` is a stub that simulates a persistence call
+  with a timeout and a random failure, so error and loading states could be built and
+  tested. Watchlists live in component state and are gone on refresh; making them stick
+  means adding real persistence.
+- **No rate-limit handling.** Binance's public endpoints have request weights that this
+  app does not track. Fine at one user on one browser tab, not fine beyond that.
+- **Prices are Binance's only.** No cross-exchange aggregation, and nothing here is
+  investment advice or a trading tool.
 
-### `npm run eject`
+## License
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+MIT.
